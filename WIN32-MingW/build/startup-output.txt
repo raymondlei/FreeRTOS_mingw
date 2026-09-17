@@ -1,0 +1,9 @@
+Trace started.
+Note that the trace output uses the ring buffer mode, meaning that the output trace
+will only be the most recent data able to fit within the trace recorder buffer.
+
+The trace will be dumped to the file "Trace.dump" whenever a call to configASSERT()
+fails or the 't' key is pressed.
+Note that key presses cannot be captured in the Eclipse console, so for key presses to work
+you will have to run this demo in a Windows console.
+
