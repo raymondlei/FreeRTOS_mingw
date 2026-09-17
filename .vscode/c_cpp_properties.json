@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "MinGW FreeRTOS",
+            "includePath": [
+                "${workspaceFolder}/WIN32-MingW",
+                "${workspaceFolder}/FreeRTOS-Kernel/include",
+                "${workspaceFolder}/FreeRTOS-Kernel/portable/MSVC-MingW",
+                "${workspaceFolder}/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-Trace/include",
+                "${workspaceFolder}/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-Trace/kernelports/FreeRTOS/include",
+                "${workspaceFolder}/WIN32-MingW/Trace_Recorder_Configuration",
+                "${workspaceFolder}/FreeRTOS/FreeRTOS/Demo/Common/include"
+            ],
+            "defines": [
+                "_WIN32_WINNT=0x0601",
+                "projCOVERAGE_TEST=0"
+            ],
+            "compilerPath": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}
