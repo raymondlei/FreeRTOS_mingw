@@ -1,14 +1,158 @@
 # Build directory
 BUILD_DIR := ../build_full
 BLINKY_DEMO ?= 0
+EXAMPLE004_DEMO ?= 0
+EXAMPLE013_DEMO ?= 0
+EXAMPLE010_DEMO ?= 0
+EXAMPLE011_DEMO ?= 0
+EXAMPLE016_DEMO ?= 0
+EXAMPLE020_DEMO ?= 0
+EXAMPLE024_DEMO ?= 0
 
 # Compiler - Note this expects you are using MinGW version of GCC
 CC := gcc
 CFLAGS := -O0 -g3 -Wall -Wextra -c -fmessage-length=0 -Wcast-qual -Wno-error=return-mismatch -D_WIN32_WINNT=0x0601
 
 ifeq ($(BLINKY_DEMO),1)
+ifeq ($(EXAMPLE004_DEMO),1)
+$(error BLINKY_DEMO and EXAMPLE004_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE013_DEMO),1)
+$(error BLINKY_DEMO and EXAMPLE013_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE010_DEMO),1)
+$(error BLINKY_DEMO and EXAMPLE010_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE011_DEMO),1)
+$(error BLINKY_DEMO and EXAMPLE011_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE016_DEMO),1)
+$(error BLINKY_DEMO and EXAMPLE016_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE024_DEMO),1)
+$(error BLINKY_DEMO and EXAMPLE024_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE020_DEMO),1)
+$(error BLINKY_DEMO and EXAMPLE020_DEMO cannot both be 1)
+endif
+endif
+
+ifeq ($(EXAMPLE004_DEMO),1)
+ifeq ($(EXAMPLE013_DEMO),1)
+$(error EXAMPLE004_DEMO and EXAMPLE013_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE010_DEMO),1)
+$(error EXAMPLE004_DEMO and EXAMPLE010_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE011_DEMO),1)
+$(error EXAMPLE004_DEMO and EXAMPLE011_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE016_DEMO),1)
+$(error EXAMPLE004_DEMO and EXAMPLE016_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE024_DEMO),1)
+$(error EXAMPLE004_DEMO and EXAMPLE024_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE020_DEMO),1)
+$(error EXAMPLE004_DEMO and EXAMPLE020_DEMO cannot both be 1)
+endif
+endif
+
+ifeq ($(EXAMPLE013_DEMO),1)
+ifeq ($(EXAMPLE010_DEMO),1)
+$(error EXAMPLE013_DEMO and EXAMPLE010_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE011_DEMO),1)
+$(error EXAMPLE013_DEMO and EXAMPLE011_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE016_DEMO),1)
+$(error EXAMPLE013_DEMO and EXAMPLE016_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE024_DEMO),1)
+$(error EXAMPLE013_DEMO and EXAMPLE024_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE020_DEMO),1)
+$(error EXAMPLE013_DEMO and EXAMPLE020_DEMO cannot both be 1)
+endif
+endif
+
+ifeq ($(EXAMPLE010_DEMO),1)
+ifeq ($(EXAMPLE011_DEMO),1)
+$(error EXAMPLE010_DEMO and EXAMPLE011_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE016_DEMO),1)
+$(error EXAMPLE010_DEMO and EXAMPLE016_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE024_DEMO),1)
+$(error EXAMPLE010_DEMO and EXAMPLE024_DEMO cannot both be 1)
+endif
+ifeq ($(EXAMPLE020_DEMO),1)
+$(error EXAMPLE010_DEMO and EXAMPLE020_DEMO cannot both be 1)
+endif
+endif
+
+ifeq ($(EXAMPLE011_DEMO),1)
+ifeq ($(EXAMPLE016_DEMO),1)
+$(error EXAMPLE011_DEMO and EXAMPLE016_DEMO cannot both be 1)
+endif
+endif
+
+ifeq ($(EXAMPLE016_DEMO),1)
+ifeq ($(EXAMPLE024_DEMO),1)
+$(error EXAMPLE016_DEMO and EXAMPLE024_DEMO cannot both be 1)
+endif
+endif
+
+ifeq ($(EXAMPLE020_DEMO),1)
+ifeq ($(EXAMPLE024_DEMO),1)
+$(error EXAMPLE020_DEMO and EXAMPLE024_DEMO cannot both be 1)
+endif
+endif
+
+ifeq ($(EXAMPLE016_DEMO),1)
+ifeq ($(EXAMPLE020_DEMO),1)
+$(error EXAMPLE016_DEMO and EXAMPLE020_DEMO cannot both be 1)
+endif
+endif
+
+ifeq ($(BLINKY_DEMO),1)
 	BUILD_DIR := ../build_blinky
 	CFLAGS += -DmainCREATE_SIMPLE_BLINKY_DEMO_ONLY=1
+endif
+
+ifeq ($(EXAMPLE004_DEMO),1)
+	BUILD_DIR := ../build_functional
+	CFLAGS += -DmainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY=1
+endif
+
+ifeq ($(EXAMPLE013_DEMO),1)
+	BUILD_DIR := ../build_example013
+	CFLAGS += -DmainCREATE_EXAMPLE013_DEMO_ONLY=1
+endif
+
+ifeq ($(EXAMPLE010_DEMO),1)
+	BUILD_DIR := ../build_example010
+	CFLAGS += -DmainCREATE_EXAMPLE010_DEMO_ONLY=1
+endif
+
+ifeq ($(EXAMPLE011_DEMO),1)
+	BUILD_DIR := ../build_example011
+	CFLAGS += -DmainCREATE_EXAMPLE011_DEMO_ONLY=1
+endif
+
+ifeq ($(EXAMPLE020_DEMO),1)
+	BUILD_DIR := ../build_example020
+	CFLAGS += -DmainCREATE_EXAMPLE020_DEMO_ONLY=1
+endif
+
+ifeq ($(EXAMPLE024_DEMO),1)
+	BUILD_DIR := ../build_example024
+	CFLAGS += -DmainCREATE_EXAMPLE024_DEMO_ONLY=1
+endif
+
+ifeq ($(EXAMPLE016_DEMO),1)
+	BUILD_DIR := ../build_example016
+	CFLAGS += -DmainCREATE_EXAMPLE016_DEMO_ONLY=1
 endif
 
 ifeq ($(COVERAGE_TEST),1)
@@ -153,5 +297,4 @@ $(FREERTOS_PLUS_TRACE_OBJS): %.o: $(FREERTOS_PLUS_TRACE_SOURCES) $(FREERTOS_PLUS
 # Clean rule
 clean:
 	if exist "$(BUILD_DIR)" rmdir /s /q "$(BUILD_DIR)"
-
 

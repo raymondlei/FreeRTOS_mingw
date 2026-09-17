@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug FreeRTOS MinGW simulation",
+            "name": "Debug Example004",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build_full/RTOSDemo.exe",
+            "program": "${workspaceFolder}/build_functional/RTOSDemo.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/WIN32-MingW",
@@ -18,7 +18,7 @@
             "externalConsole": true,
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
-            "preLaunchTask": "Build FreeRTOS MinGW simulation",
+            "preLaunchTask": "Build Example004",
             "setupCommands": [
                 {
                     "description": "Enable GDB pretty printing",
@@ -28,10 +28,10 @@
             ]
         },
         {
-            "name": "Debug main_blinky FreeRTOS MinGW simulation",
+            "name": "Debug Example010",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build_blinky/RTOSDemo.exe",
+            "program": "${workspaceFolder}/build_example010/RTOSDemo.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/WIN32-MingW",
@@ -44,7 +44,137 @@
             "externalConsole": true,
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
-            "preLaunchTask": "Build FreeRTOS MinGW blinky simulation",
+            "preLaunchTask": "Build Example010",
+            "setupCommands": [
+                {
+                    "description": "Enable GDB pretty printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug Example011",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build_example011/RTOSDemo.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/WIN32-MingW",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+                }
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+            "preLaunchTask": "Build Example011",
+            "setupCommands": [
+                {
+                    "description": "Enable GDB pretty printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },        
+        {
+            "name": "Debug Example013",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build_example013/RTOSDemo.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/WIN32-MingW",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+                }
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+            "preLaunchTask": "Build Example013",
+            "setupCommands": [
+                {
+                    "description": "Enable GDB pretty printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug Example016",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build_example016/RTOSDemo.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/WIN32-MingW",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+                }
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+            "preLaunchTask": "Build Example016",
+            "setupCommands": [
+                {
+                    "description": "Enable GDB pretty printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug Example020",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build_example020/RTOSDemo.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/WIN32-MingW",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+                }
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+            "preLaunchTask": "Build Example020",
+            "setupCommands": [
+                {
+                    "description": "Enable GDB pretty printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug Example024",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build_example024/RTOSDemo.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/WIN32-MingW",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+                }
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+            "preLaunchTask": "Build Example024",
             "setupCommands": [
                 {
                     "description": "Enable GDB pretty printing",

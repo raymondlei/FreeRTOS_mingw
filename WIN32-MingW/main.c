@@ -25,12 +25,29 @@
  */
 
 /******************************************************************************
- * This project provides two demo applications.  A simple blinky style project,
- * and a more comprehensive test and demo application.  The
- * mainCREATE_SIMPLE_BLINKY_DEMO_ONLY setting is used to select between the two.
- * The simply blinky demo is implemented and described in main_blinky.c.  The
- * more comprehensive test and demo application is implemented and described in
- * main_full.c.
+ * This project provides six demo applications: a simple blinky style project,
+ * a functional example based on the FreeRTOS book examples, and a more
+ * comprehensive test and demo application, plus Example013.
+ *
+ * mainCREATE_SIMPLE_BLINKY_DEMO_ONLY selects the blinky demo from
+ * main_blinky.c.
+ *
+ * mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY selects the functional example from
+ * main_functional_example.c.
+ *
+ * mainCREATE_EXAMPLE013_DEMO_ONLY selects Example013 from main_example013.c.
+ *
+ * mainCREATE_EXAMPLE010_DEMO_ONLY selects Example010 from main_example010.c.
+ *
+ * mainCREATE_EXAMPLE011_DEMO_ONLY selects Example011 from main_example011.c.
+ *
+ * mainCREATE_EXAMPLE016_DEMO_ONLY selects Example016 from main_example016.c.
+ *
+ * mainCREATE_EXAMPLE020_DEMO_ONLY selects Example020 from main_example020.c.
+ *
+ * mainCREATE_EXAMPLE024_DEMO_ONLY selects Example024 from main_example024.c.
+ *
+ * If neither setting is enabled then main_full.c is selected.
  *
  * This file implements the code that is not demo specific, including the
  * hardware setup and FreeRTOS hook functions.
@@ -57,18 +74,65 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-/* This project provides two demo applications.  A simple blinky style demo
- * application, and a more comprehensive test and demo application.  The
- * mainCREATE_SIMPLE_BLINKY_DEMO_ONLY setting is used to select between the two.
+/* This project provides seven demo applications.  The
+ * mainCREATE_SIMPLE_BLINKY_DEMO_ONLY and
+ * mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY and
+ * mainCREATE_EXAMPLE013_DEMO_ONLY and
+ * mainCREATE_EXAMPLE010_DEMO_ONLY settings are used to select the demo.
+ * mainCREATE_EXAMPLE011_DEMO_ONLY, mainCREATE_EXAMPLE016_DEMO_ONLY, and
+ * mainCREATE_EXAMPLE020_DEMO_ONLY and mainCREATE_EXAMPLE024_DEMO_ONLY are also
+ * available for Examples 011, 016, 020, and 024.
  *
  * If mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is 1 then the blinky demo will be built.
  * The blinky demo is implemented and described in main_blinky.c.
  *
- * If mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is not 1 then the comprehensive test and
- * demo application will be built.  The comprehensive test and demo application is
- * implemented and described in main_full.c. */
+ * If mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY is 1 then the functional example
+ * will be built.  The functional example is implemented and described in
+ * main_functional_example.c.
+ *
+ * If neither setting is 1 then the comprehensive test and demo application
+ * will be built.  The comprehensive test and demo application is implemented
+ * and described in main_full.c. */
 #ifndef mainCREATE_SIMPLE_BLINKY_DEMO_ONLY
     #define mainCREATE_SIMPLE_BLINKY_DEMO_ONLY    0
+#endif
+
+#ifndef mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY
+    #define mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY    0
+#endif
+
+#ifndef mainCREATE_EXAMPLE013_DEMO_ONLY
+    #define mainCREATE_EXAMPLE013_DEMO_ONLY    0
+#endif
+
+#ifndef mainCREATE_EXAMPLE010_DEMO_ONLY
+    #define mainCREATE_EXAMPLE010_DEMO_ONLY    0
+#endif
+
+#ifndef mainCREATE_EXAMPLE011_DEMO_ONLY
+    #define mainCREATE_EXAMPLE011_DEMO_ONLY    0
+#endif
+
+#ifndef mainCREATE_EXAMPLE016_DEMO_ONLY
+    #define mainCREATE_EXAMPLE016_DEMO_ONLY    0
+#endif
+
+#ifndef mainCREATE_EXAMPLE020_DEMO_ONLY
+    #define mainCREATE_EXAMPLE020_DEMO_ONLY    0
+#endif
+
+#ifndef mainCREATE_EXAMPLE024_DEMO_ONLY
+    #define mainCREATE_EXAMPLE024_DEMO_ONLY    0
+#endif
+
+#if ( ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY + mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY + mainCREATE_EXAMPLE013_DEMO_ONLY + mainCREATE_EXAMPLE010_DEMO_ONLY + mainCREATE_EXAMPLE011_DEMO_ONLY + mainCREATE_EXAMPLE016_DEMO_ONLY + mainCREATE_EXAMPLE020_DEMO_ONLY + mainCREATE_EXAMPLE024_DEMO_ONLY ) > 1 )
+    #error Only one demo selection setting can be 1.
+#endif
+
+#if ( ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY != 1 ) && ( mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE013_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE010_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE011_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE016_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE020_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE024_DEMO_ONLY != 1 ) )
+    #define mainRUN_FULL_DEMO    1
+#else
+    #define mainRUN_FULL_DEMO    0
 #endif
 
 /* This demo uses heap_5.c, and these constants define the sizes of the regions
@@ -91,11 +155,15 @@
 
 /*-----------------------------------------------------------*/
 
-/*
- * main_blinky() is used when mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is set to 1.
- * main_full() is used when mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is set to 0.
- */
+/* Demo entry points selected by the compile-time settings above. */
 extern void main_blinky( void );
+extern void main_functional_example( void );
+extern void main_example013( void );
+extern void main_example010( void );
+extern void main_example011( void );
+extern void main_example016( void );
+extern void main_example020( void );
+extern void main_example024( void );
 extern void main_full( void );
 
 /*
@@ -225,9 +293,37 @@ int main( void )
     }
     #endif /* if ( projCOVERAGE_TEST != 1 ) */
 
-    /* The mainCREATE_SIMPLE_BLINKY_DEMO_ONLY setting is described at the top
-     * of this file. */
-    #if ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY == 1 )
+    /* Demo selection is controlled by the compile-time settings described at
+     * the top of this file. */
+    #if ( mainCREATE_EXAMPLE024_DEMO_ONLY == 1 )
+    {
+        main_example024();
+    }
+    #elif ( mainCREATE_EXAMPLE020_DEMO_ONLY == 1 )
+    {
+        main_example020();
+    }
+    #elif ( mainCREATE_EXAMPLE016_DEMO_ONLY == 1 )
+    {
+        main_example016();
+    }
+    #elif ( mainCREATE_EXAMPLE011_DEMO_ONLY == 1 )
+    {
+        main_example011();
+    }
+    #elif ( mainCREATE_EXAMPLE010_DEMO_ONLY == 1 )
+    {
+        main_example010();
+    }
+    #elif ( mainCREATE_EXAMPLE013_DEMO_ONLY == 1 )
+    {
+        main_example013();
+    }
+    #elif ( mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY == 1 )
+    {
+        main_functional_example();
+    }
+    #elif ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY == 1 )
     {
         main_blinky();
     }
@@ -271,10 +367,10 @@ void vApplicationIdleHook( void )
      * because it is the responsibility of the idle task to clean up memory
      * allocated by the kernel to any task that has since deleted itself. */
 
-    #if ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY != 1 )
+    #if ( mainRUN_FULL_DEMO == 1 )
     {
         /* Call the idle task processing used by the full demo.  The simple
-         * blinky demo does not use the idle task hook. */
+         * blinky demo and functional example do not use the idle task hook. */
         vFullDemoIdleFunction();
     }
     #endif
@@ -304,11 +400,11 @@ void vApplicationTickHook( void )
     * code must not attempt to block, and only the interrupt safe FreeRTOS API
     * functions can be used (those that end in FromISR()). */
 
-    #if ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY != 1 )
+    #if ( mainRUN_FULL_DEMO == 1 )
     {
         vFullDemoTickHookFunction();
     }
-    #endif /* mainCREATE_SIMPLE_BLINKY_DEMO_ONLY */
+    #endif /* mainRUN_FULL_DEMO */
 }
 /*-----------------------------------------------------------*/
 
