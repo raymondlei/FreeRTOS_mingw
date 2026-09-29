@@ -2,7 +2,33 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Example004",
+            "name": "Debug ECE422 Sandbox",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build_sandbox/sandbox_demo.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/WIN32-MingW",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+                }
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+            "preLaunchTask": "Build ECE422 Sandbox",
+            "setupCommands": [
+                {
+                    "description": "Enable GDB pretty printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug Ex04",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build_functional/RTOSDemo.exe",
@@ -28,7 +54,7 @@
             ]
         },
         {
-            "name": "Debug Example010",
+            "name": "Debug Ex10",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build_example010/RTOSDemo.exe",
@@ -54,7 +80,7 @@
             ]
         },
         {
-            "name": "Debug Example011",
+            "name": "Debug Ex11",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build_example011/RTOSDemo.exe",
@@ -80,7 +106,7 @@
             ]
         },        
         {
-            "name": "Debug Example013",
+            "name": "Debug Ex13",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build_example013/RTOSDemo.exe",
@@ -106,7 +132,7 @@
             ]
         },
         {
-            "name": "Debug Example016",
+            "name": "Debug Ex16",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build_example016/RTOSDemo.exe",
@@ -132,7 +158,7 @@
             ]
         },
         {
-            "name": "Debug Example020",
+            "name": "Debug Ex20",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build_example020/RTOSDemo.exe",
@@ -158,7 +184,7 @@
             ]
         },
         {
-            "name": "Debug Example024",
+            "name": "Debug Ex24",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build_example024/RTOSDemo.exe",

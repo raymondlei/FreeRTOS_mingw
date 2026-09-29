@@ -2,6 +2,23 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Build ECE422 Sandbox",
+            "type": "shell",
+            "command": "C:\\msys64\\ucrt64\\bin\\mingw32-make.exe",
+            "args": [
+                "-C",
+                "${workspaceFolder}/WIN32-MingW",
+                "SANDBOX_DEMO=1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
             "label": "Build Example004",
             "type": "shell",
             "command": "C:\\msys64\\ucrt64\\bin\\mingw32-make.exe",

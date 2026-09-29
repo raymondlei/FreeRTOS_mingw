@@ -125,11 +125,15 @@
     #define mainCREATE_EXAMPLE024_DEMO_ONLY    0
 #endif
 
-#if ( ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY + mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY + mainCREATE_EXAMPLE013_DEMO_ONLY + mainCREATE_EXAMPLE010_DEMO_ONLY + mainCREATE_EXAMPLE011_DEMO_ONLY + mainCREATE_EXAMPLE016_DEMO_ONLY + mainCREATE_EXAMPLE020_DEMO_ONLY + mainCREATE_EXAMPLE024_DEMO_ONLY ) > 1 )
+#ifndef mainCREATE_SANDBOX_DEMO_ONLY
+    #define mainCREATE_SANDBOX_DEMO_ONLY    0
+#endif
+
+#if ( ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY + mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY + mainCREATE_EXAMPLE013_DEMO_ONLY + mainCREATE_EXAMPLE010_DEMO_ONLY + mainCREATE_EXAMPLE011_DEMO_ONLY + mainCREATE_EXAMPLE016_DEMO_ONLY + mainCREATE_EXAMPLE020_DEMO_ONLY + mainCREATE_EXAMPLE024_DEMO_ONLY + mainCREATE_SANDBOX_DEMO_ONLY ) > 1 )
     #error Only one demo selection setting can be 1.
 #endif
 
-#if ( ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY != 1 ) && ( mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE013_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE010_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE011_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE016_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE020_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE024_DEMO_ONLY != 1 ) )
+#if ( ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY != 1 ) && ( mainCREATE_FUNCTIONAL_EXAMPLE_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE013_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE010_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE011_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE016_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE020_DEMO_ONLY != 1 ) && ( mainCREATE_EXAMPLE024_DEMO_ONLY != 1 ) && ( mainCREATE_SANDBOX_DEMO_ONLY != 1 ) )
     #define mainRUN_FULL_DEMO    1
 #else
     #define mainRUN_FULL_DEMO    0
@@ -164,6 +168,7 @@ extern void main_example011( void );
 extern void main_example016( void );
 extern void main_example020( void );
 extern void main_example024( void );
+extern void main_sandbox( void );
 extern void main_full( void );
 
 /*
@@ -225,6 +230,11 @@ static uint32_t prvKeyboardInterruptHandler( void );
  * Keyboard interrupt handler for the blinky demo.
  */
 extern void vBlinkyKeyboardInterruptHandler( int xKeyPressed );
+
+/*
+ * Keyboard interrupt handler for the sandbox demo's simulated UART RX.
+ */
+extern void taskUartRx_notifyKeyPress( int xKeyPressed );
 
 /*-----------------------------------------------------------*/
 
@@ -295,7 +305,11 @@ int main( void )
 
     /* Demo selection is controlled by the compile-time settings described at
      * the top of this file. */
-    #if ( mainCREATE_EXAMPLE024_DEMO_ONLY == 1 )
+    #if ( mainCREATE_SANDBOX_DEMO_ONLY == 1 )
+    {
+        main_sandbox();
+    }
+    #elif ( mainCREATE_EXAMPLE024_DEMO_ONLY == 1 )
     {
         main_example024();
     }
@@ -686,6 +700,9 @@ static uint32_t prvKeyboardInterruptHandler( void )
             #if ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY == 1 )
                 /* Call the keyboard interrupt handler for the blinky demo. */
                 vBlinkyKeyboardInterruptHandler( xKeyPressed );
+            #elif ( mainCREATE_SANDBOX_DEMO_ONLY == 1 )
+                /* Feed the key press into the sandbox demo's simulated UART RX path. */
+                taskUartRx_notifyKeyPress( xKeyPressed );
             #endif
             break;
     }

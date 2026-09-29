@@ -35,14 +35,14 @@ void main_example013( void )
 
     /* Create the one-shot software timer. */
     xOneShotTimer = xTimerCreate( "OneShot",
-                                  mainONE_SHOT_TIMER_PERIOD,
+                                  mainONE_SHOT_TIMER_PERIOD,  //in milliseconds
                                   pdFALSE,
                                   NULL,
                                   prvOneShotTimerCallback );
 
     /* Create the auto-reload software timer. */
     xAutoReloadTimer = xTimerCreate( "AutoReload",
-                                     mainAUTO_RELOAD_TIMER_PERIOD,
+                                     mainAUTO_RELOAD_TIMER_PERIOD,  //in milliseconds
                                      pdTRUE,
                                      NULL,
                                      prvAutoReloadTimerCallback );

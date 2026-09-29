@@ -1,5 +1,8 @@
 # Build directory
 BUILD_DIR := ../build_full
+PARALLEL_JOBS ?= $(if $(NUMBER_OF_PROCESSORS),$(NUMBER_OF_PROCESSORS),4)
+MAKEFLAGS += -j$(PARALLEL_JOBS)
+
 BLINKY_DEMO ?= 0
 EXAMPLE004_DEMO ?= 0
 EXAMPLE013_DEMO ?= 0
@@ -8,10 +11,17 @@ EXAMPLE011_DEMO ?= 0
 EXAMPLE016_DEMO ?= 0
 EXAMPLE020_DEMO ?= 0
 EXAMPLE024_DEMO ?= 0
+SANDBOX_DEMO ?= 0
 
 # Compiler - Note this expects you are using MinGW version of GCC
 CC := gcc
 CFLAGS := -O0 -g3 -Wall -Wextra -c -fmessage-length=0 -Wcast-qual -Wno-error=return-mismatch -D_WIN32_WINNT=0x0601
+
+ifeq ($(SANDBOX_DEMO),1)
+ifneq ($(filter 1,$(BLINKY_DEMO) $(EXAMPLE004_DEMO) $(EXAMPLE010_DEMO) $(EXAMPLE011_DEMO) $(EXAMPLE013_DEMO) $(EXAMPLE016_DEMO) $(EXAMPLE020_DEMO) $(EXAMPLE024_DEMO)),)
+$(error SANDBOX_DEMO cannot be combined with another demo)
+endif
+endif
 
 ifeq ($(BLINKY_DEMO),1)
 ifeq ($(EXAMPLE004_DEMO),1)
@@ -155,6 +165,11 @@ ifeq ($(EXAMPLE016_DEMO),1)
 	CFLAGS += -DmainCREATE_EXAMPLE016_DEMO_ONLY=1
 endif
 
+ifeq ($(SANDBOX_DEMO),1)
+	BUILD_DIR := ../build_sandbox
+	CFLAGS += -DmainCREATE_SANDBOX_DEMO_ONLY=1
+endif
+
 ifeq ($(COVERAGE_TEST),1)
   CFLAGS += -DprojCOVERAGE_TEST=1
 else
@@ -167,6 +182,9 @@ LDFLAGS := -Xlinker -Map=$(BUILD_DIR)/rtosdemo.map
 
 # Executable Targets
 EXE := $(BUILD_DIR)/RTOSDemo.exe
+ifeq ($(SANDBOX_DEMO),1)
+	EXE := $(BUILD_DIR)/sandbox_demo.exe
+endif
 
 # FreeRTOS Kernel
 FREERTOS_KERNEL_DIR := $(abspath ../FreeRTOS-Kernel)
@@ -261,11 +279,20 @@ MAIN_INCLUDES :=
 MAIN_SOURCES :=
 MAIN_INCLUDE_DIRS :=
 MAIN_BUILD_DIR := $(BUILD_DIR)/main
+SANDBOX_DIR := $(abspath ../ECE422_sandbox)
 
 ## Main includes
+ifeq ($(SANDBOX_DEMO),1)
+MAIN_INCLUDES += $(wildcard $(SANDBOX_DIR)/app/*.h)
+MAIN_INCLUDE_DIRS += -I $(SANDBOX_DIR)/app
+endif
 
 ## Main sources
 MAIN_SOURCES += $(wildcard $(MAIN_DIR)/*.c)
+ifeq ($(SANDBOX_DEMO),1)
+MAIN_SOURCES += $(SANDBOX_DIR)/main_sandbox.c
+MAIN_SOURCES += $(wildcard $(SANDBOX_DIR)/app/*.c)
+endif
 
 ## Main objects
 MAIN_SOURCES_NAMES :=$(notdir $(MAIN_SOURCES))
@@ -276,22 +303,22 @@ $(EXE) : $(MAIN_OBJS) $(FREERTOS_KERNEL_OBJS) $(FREERTOS_DEMOS_OBJS) $(FREERTOS_
 
 # Main objects rules
 $(MAIN_OBJS): %.o: $(MAIN_SOURCES) $(MAIN_INCLUDES) $(FREERTOS_KERNEL_INCLUDES) $(FREERTOS_PLUS_TRACE_INCLUDES) $(FREERTOS_DEMOS_INCLUDES)
-	if not exist "$(@D)" mkdir "$(@D)"
-	$(CC) $(CFLAGS) $(FREERTOS_KERNEL_INCLUDE_DIRS) $(FREERTOS_PLUS_TRACE_INCLUDE_DIRS) $(FREERTOS_DEMOS_INCLUDE_DIRS) -o $@ $(filter %$(notdir $(patsubst %.o, %.c, $@)), $^)
+	if not exist "$(@D)" mkdir "$(@D)" 2>NUL || ver >NUL
+	$(CC) $(CFLAGS) $(MAIN_INCLUDE_DIRS) $(FREERTOS_KERNEL_INCLUDE_DIRS) $(FREERTOS_PLUS_TRACE_INCLUDE_DIRS) $(FREERTOS_DEMOS_INCLUDE_DIRS) -o $@ $(filter $(notdir $(patsubst %.o, %.c, $@)) %/$(notdir $(patsubst %.o, %.c, $@)), $^)
 
 # FreeRTOS Kernel objects rules
 $(FREERTOS_KERNEL_OBJS): %.o: $(FREERTOS_KERNEL_SOURCES) $(FREERTOS_KERNEL_INCLUDES) $(FREERTOS_PLUS_TRACE_INCLUDES)
-	if not exist "$(@D)" mkdir "$(@D)"
+	if not exist "$(@D)" mkdir "$(@D)" 2>NUL || ver >NUL
 	$(CC) $(CFLAGS) $(FREERTOS_KERNEL_INCLUDE_DIRS) $(FREERTOS_PLUS_TRACE_INCLUDE_DIRS) -o $@ $(filter %$(notdir $(patsubst %.o, %.c, $@)), $^)
 
 # FreeRTOS Demos objects rules
 $(FREERTOS_DEMOS_OBJS): %.o: $(FREERTOS_DEMOS_SOURCES) $(FREERTOS_DEMOS_INCLUDES) $(FREERTOS_KERNEL_INCLUDES) $(FREERTOS_PLUS_TRACE_INCLUDES)
-	if not exist "$(@D)" mkdir "$(@D)"
+	if not exist "$(@D)" mkdir "$(@D)" 2>NUL || ver >NUL
 	$(CC) $(CFLAGS) $(FREERTOS_DEMOS_INCLUDE_DIRS) $(FREERTOS_KERNEL_INCLUDE_DIRS) $(FREERTOS_PLUS_TRACE_INCLUDE_DIRS) -o $@ $(filter %$(notdir $(patsubst %.o, %.c, $@)), $^)
 
 # Trace Recorder object filess
 $(FREERTOS_PLUS_TRACE_OBJS): %.o: $(FREERTOS_PLUS_TRACE_SOURCES) $(FREERTOS_PLUS_TRACE_INCLUDES) $(FREERTOS_KERNEL_INCLUDES)
-	if not exist "$(@D)" mkdir "$(@D)"
+	if not exist "$(@D)" mkdir "$(@D)" 2>NUL || ver >NUL
 	$(CC) $(CFLAGS) $(FREERTOS_PLUS_TRACE_INCLUDE_DIRS) $(FREERTOS_KERNEL_INCLUDE_DIRS) -o $@ $(filter %$(notdir $(patsubst %.o, %.c, $@)), $^)
 
 # Clean rule

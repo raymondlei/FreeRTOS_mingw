@@ -4,6 +4,7 @@
             "name": "MinGW FreeRTOS",
             "includePath": [
                 "${workspaceFolder}/WIN32-MingW",
+                "${workspaceFolder}/ECE422_sandbox/app",
                 "${workspaceFolder}/FreeRTOS-Kernel/include",
                 "${workspaceFolder}/FreeRTOS-Kernel/portable/MSVC-MingW",
                 "${workspaceFolder}/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-Trace/include",
